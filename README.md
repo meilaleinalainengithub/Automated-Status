@@ -22,6 +22,6 @@ TOKEN = "your-token" # Replace with your Discord token
 ```
 4. Replace the number next to ```TIMER``` with the amount of time between status changes, and replace ```"your-token``` with your discord token.
 
-3. Run ```RUNME.bat```.
+3. Run ```RUNME.vbs```.
 
 That's it! You are now cycling between custom status messages! To add more, just add them into ```statuses.txt``` and the program will automatically use them.

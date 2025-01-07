@@ -1,2 +1,4 @@
+Windows Registry Editor Version 5.00
+
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run]
-"Automated-Status"="\"%SystemRoot%\\System32\\cmd.exe\" /c \"python.exe \"\"%APPDATA%\\roaming\\Automated-Status\\main.py\"\""
+"Automated-Status"="cmd.exe /c \"python.exe \"%APPDATA%\\Roaming\\Automated-Status\\main.py\"\""
