@@ -10,7 +10,7 @@ If you want to add this program to Windows Startup (automatically run this when 
 1. Move the folder to ```%appdata%\\roaming```.
 2. Run ```.reg```.
 
-```.reg``` adds ```main.py``` to the Windows Registry and runs the script on startup. 
+```.reg``` adds ```RUNME.vbs``` to the Windows Registry, which runs ```main.py``` without it's terminal on startup. 
 
 ### How to Use
 1. Import your desired statuses into ```statuses.txt```.
