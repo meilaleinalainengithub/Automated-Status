@@ -3,7 +3,7 @@
 
 ### How to Install
 It's a very simple installation.
-1. Download the Automated-Statuses.zip from [releases.](https://github.com/meilaleinalainengithub/Automated-Status/releases/tag/discord)
+1. Download the Automated-Statuses.zip from [releases.](https://github.com/meilaleinalainengithub/Automated-Status/releases)
 2. Unzip the folder.
 
 If you want to add this program to Windows Startup (automatically run this when your PC boots up):
