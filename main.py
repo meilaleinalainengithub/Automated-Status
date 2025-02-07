@@ -1,42 +1,55 @@
+import time
+import logging
+from itertools import cycle
 import requests
-from time import sleep
 
-TIMER = 3  # In seconds
-TOKEN = "your-token" # Replace with your Discord token
+# Configuration
+TIMER = 5  # In seconds
+TOKEN = "your-token"  # Replace with your Discord token
 URL = "https://discord.com/api/v10/users/@me/settings"
-headers = {
-    "Authorization": TOKEN,
-    "Content-Type": "application/json"
-}
+STATUSES_FILE = "statuses.txt"
 
-def update_status(status):
-    status_json = {
-        "custom_status": {
-            "text": status
-        }
-    }
-    
-    response = requests.patch(URL, json=status_json, headers=headers)
-    
-    if response.status_code == 200:
-        print(f"Status updated to: {status}")
-    else:
-        print(f"Failed to update status: {response.status_code}")
-        print(response.text)
+# Setup logging with a fancy lil' library
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-while True:
-    with open("statuses.txt", "r") as file:
-        statuses = file.readlines()
+def load_statuses(file_path):
+    """Load statuses from a file, skipping blank lines."""
+    try:
+        with open(file_path, "r") as file:
+            statuses = [line.strip() for line in file if line.strip()]
+            if not statuses:
+                logging.warning("No statuses found in '%s'.", file_path)
+            return statuses
+    except FileNotFoundError:
+        logging.error("File '%s' not found. Please create it with some statuses.", file_path)
+        return []
 
-        for i, line in enumerate(statuses, 1):
-            status = line.strip()
-            update_status(status)
-            
-            next_line_index = i + 1
-            if next_line_index < len(statuses):
-                next_line = statuses[next_line_index].strip()
-                statuses[i] = next_line + '\n'
-            elif next_line_index == len(statuses):
-                statuses[i] = statuses[0]
-            
-            sleep(TIMER)
+def update_status(session, status):
+    """Send a PATCH request to update the custom status."""
+    payload = {"custom_status": {"text": status}}
+    try:
+        response = session.patch(URL, json=payload)
+        if response.ok:
+            logging.info("Status updated to: %s", status)
+        else:
+            logging.error("Failed to update status (%s): %s", response.status_code, response.text)
+    except requests.RequestException as e:
+        logging.error("An error occurred: %s", e)
+
+def main():
+    statuses = load_statuses(STATUSES_FILE)
+    if not statuses:
+        return
+
+    # Create a session cause thats more efficicente
+    with requests.Session() as session:
+        session.headers.update({
+            "Authorization": TOKEN,
+            "Content-Type": "application/json"
+        })
+        for status in cycle(statuses):
+            update_status(session, status)
+            time.sleep(TIMER)
+
+if __name__ == "__main__":
+    main()
