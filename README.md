@@ -1,3 +1,5 @@
+currently, the auto-starting feature on this is broken and i got help with chatgpt for that part lmao. you can still run the .vbs file and it will work, you just need to manually start the program
+
 # Automatic Discord Status Updater
 ## Update your custom status automatically on a customizable timer
 
